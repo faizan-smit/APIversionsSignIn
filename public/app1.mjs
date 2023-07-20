@@ -17,7 +17,14 @@
       if (axiosResponse.data.userLoggedIn) {
 
 
-        location.href = `loggedin.html`;
+        localStorage.setItem('do', `hahahahaha`);
+
+        console.log(localStorage.getItem('do'));
+
+        // localStorage.setItem('user', `${axiosResponse.data.user}`);
+
+
+        location.href = `app.html`;
 
       }
 

@@ -1,44 +1,42 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-app.js";
-import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut  } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-auth.js";
-
-
-  const firebaseConfig = {
-    apiKey: "AIzaSyAHHNcIiJfVI2RxN2FBxROYPtv9oRmXpJU",
-    authDomain: "faizan-socialapp.firebaseapp.com",
-    projectId: "faizan-socialapp",
-    storageBucket: "faizan-socialapp.appspot.com",
-    messagingSenderId: "218792561325",
-    appId: "1:218792561325:web:7bdf5924d8ef7fc7b3d424",
-    measurementId: "G-XBH0G5BRV6"
-};
-
-  // Initialize Firebase
-  const app = initializeApp(firebaseConfig);
-  const auth = getAuth(app);
 
   var signup = document.getElementById('signup')
 
-  signup.addEventListener('click', function(){
+  signup.addEventListener('click', async function(){
 
     var email = document.getElementById('email').value
     var password = document.getElementById('password').value
 
-    createUserWithEmailAndPassword(auth, email, password)
-    .then((userCredential) => {
-      // Signed in 
-      const user = userCredential.user;
-      // ...
+    
+    try {
+      const axiosResponse = await axios.post(`/api/v1/signup/${email}`, {
+          password: password,
+      })
 
-      alert('Sign Up Successful')
-      location.href= './signin.html'
+      if (axiosResponse.data.signUpSuccess) {
 
-    })
-    .catch((error) => {
-      const errorCode = error.code;
-      const errorMessage = error.message;
-      // ..
-      alert('Error:' + errorMessage)
-    });
+
+
+        console.log(axiosResponse.data.signUpSuccess);
+        location.href = `signin.html`;
+
+      }
+
+      else{
+
+
+        console.log(axiosResponse.data.errorMessage);
+
+
+      }
+
+
+
+  } catch(error) {
+
+      console.log(error);
+
+  }
+
 
 
   })
@@ -47,18 +45,3 @@ import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, createUserWith
 
 
 
-const handleAuthStateChange = (user) => {
-    if (user) {
-      
-      console.log('User is logged in:', user.email);
-
-      window.location.href = `./app.html`;
-
-    } else {
-    
-      console.log('User is logged out');
-    }
-  };
-  
-
-onAuthStateChanged(auth, handleAuthStateChange);
