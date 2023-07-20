@@ -21,7 +21,7 @@
 
         console.log(localStorage.getItem('do'));
 
-        // localStorage.setItem('user', `${axiosResponse.data.user}`);
+        localStorage.setItem('user', `${axiosResponse.data.user}`);
 
 
         location.href = `app.html`;
